@@ -1,0 +1,47 @@
+
+[Strategy 패턴과 State패턴의 차이점]
+
+스트레티지 패턴과 스테이트 패턴은 구조적인 면에서 상당히 비슷하다.
+
+두 패턴은 행위 자체를 별도의 클래스로 캡슐화하고, 연관 관계를 이용해 행위를 캡슐화한 클래스(스트레티지 패턴에서는 각 스트레티지 클래스,
+스테이트 패턴에서는 각 스테이트 클래스)에 실제 작업 수행을 위임하는 측면에서 동일하다.
+또한, 두 패턴은 실행중에 행위를 변경할 수 있다.
+
+그러나 스테이트 패턴에서 클라이언트는 상태 객체와 관련된 어떠한 지식도 없다.
+예를들어, 스테이트 패턴의 Client 클래스를 살펴보자.
+Ex.
+public class Client {
+   public static void main(String[] args) {
+      Light light = new Light();
+      light.off(); // 반응없음
+      light.on();  // 불 켜짐
+      light.off(); // 불 꺼짐
+   }
+}
+
+이 코드에서 볼 수 있듯이, Client 클래스에선 상태를 알 수 있는 어떠한 단서도 발견할 수 없다.
+즉, Client 클래스는 단순히 Light 클래스의 메서드(on/off)를 호출할 뿐이다.
+동일한 객체에 동일한 메서드를 호출했는데도 반응이 다르므로 Client 클래스 입장에서는 객체가 클래스를 변경하는 것처럼 보인다.
+물론, 이는 불가능한 일이다.
+
+스트레티지 패턴은 행위를 변경하는 주체가 스테이트 패턴과 다르다.
+스테이트 패턴에서는 상태변경을 State 요소를 구현한 클래스(On/Off 클래스) 자신이 수행하지만 (내부 메서서드에서 이뤄짐)
+스트레티지 패턴에서는 Client 클래스가 수행한다. 즉, 행위 시작과 변경이 Client 클래스에서 이뤄지며 통제된다.
+Client 클래스는 Context 객체에 적절한 Strategy 객체를 설정하는 역할을 수행한다.
+이 점이 스테이트 패턴과 주요한 차이점이다.
+Ex. public class Main {
+        public static void main(String[] args) {
+            Moving bus = new Bus();
+            Moving train = new Train();
+
+            bus.setMovableStrategy(new LoadStrategy()); // Strategy 객체 설정
+            train.setMovableStrategy(new RailStrategy()); // Strategy 객체 설정
+
+            bus.move();
+            train.move();
+
+            // 버스가 선로로 이동하도록 변경하기
+            bus.setMovableStrategy(new RailStrategy());
+            bus.move();
+        }
+    }
