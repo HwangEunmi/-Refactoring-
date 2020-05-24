@@ -11,6 +11,7 @@ package com.design.refactoring.pattern.state.basic;
  * <p>
  * 즉, 상태에 따라 동일한 작업이 다른 방식으로 실행될 때,
  * 해당 상태가 작업을 수행하도록 위임한다.
+ *
  * 참고 : JAVA 객체지향 디자인패턴 7장
  */
 public class Main {
